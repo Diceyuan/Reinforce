@@ -45,7 +45,7 @@ dependencies {
 //    }
 //}
 
-task upload(type: Exec) {
-    executable 'sh'
-    args "-c","../run.sh $rootDir $buildDir"
-}
+//task upload(type: Exec) {
+//    executable 'sh'
+//    args "-c","../run.sh $rootDir $buildDir"
+//}
