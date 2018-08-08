@@ -29,6 +29,7 @@ base_apk="${app_dir}/outputs/apk/release/app_release_tt_.apk"
 # 输出目录
 output_apk_dir="${app_dir}/outputs/apk/release/"
 output_apk="${output_apk_dir}app_release_tt_jiagu_sign.apk"
+result_output_apk="${output_apk_dir}app_release_tt_jiagu_sign_.apk"
 output_apk_name_filter='*jiagu_sign.apk'
 output_apk_path_filter="${output_apk_dir}${output_apk_name_filter}"
 
@@ -67,4 +68,6 @@ java/bin/java -jar jiagu.jar -jiagu $base_apk $output_apk_dir -autosign
 # 5. 输出结果
 output_apk=$(latestFile $output_apk_path_filter)
 print "【加固完成apk】${output_apk}"
+
+mv $output_apk $result_output_apk
 exit
