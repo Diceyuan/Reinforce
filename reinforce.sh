@@ -69,5 +69,5 @@ java/bin/java -jar jiagu.jar -jiagu $base_apk $output_apk_dir -autosign
 output_apk=$(latestFile $output_apk_path_filter)
 print "【加固完成apk】${output_apk}"
 
-mv $output_apk $result_output_apk
+cp $output_apk $result_output_apk
 exit
