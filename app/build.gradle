@@ -53,5 +53,5 @@ task rein {
 
 task reinf(type: Exec) {
     executable 'sh'
-    args "-c","../run.sh $rootDir $buildDir"
+    args "-c","../run.sh $buildDir"
 }
