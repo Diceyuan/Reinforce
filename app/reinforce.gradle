@@ -1,0 +1,109 @@
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+
+ext {
+    BASE = "../reinforce/"
+    JAR = BASE + "jiagu.jar"
+    NAME = ""//360加固账号
+    PASSWORD = ""//360加固密码
+    KEY_PATH = "" //密钥路径
+    KEY_PASSWORD = "" //密钥密码
+    ALIAS = "" //密钥别名
+    ALIAS_PASSWORD = "" //别名密码
+    OUTPUT_PATH = "build/outputs/release/" //加固后所有apk的保存路径
+    CHANNEL_CONFIG = BASE + "channel/"//保存渠道配置
+}
+
+
+def reinforce(apk, outputPath) {
+    println "reinforce apk:" + apk
+
+    //jiagu.db中缓存了多渠道信息，如果不删除会合并到当前多渠道配置
+    def db = new File(BASE + "jiagu.db")
+    if (db.exists()) {
+        if (!db.delete()) {
+            throw new RuntimeException("delete jiagu.db failure!")
+        }
+    }
+
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-login", NAME, PASSWORD
+    }
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-importsign", KEY_PATH, KEY_PASSWORD, ALIAS, ALIAS_PASSWORD
+    }
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-showsign"
+    }
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-importmulpkg", CHANNEL_CONFIG + "template_" + channel + ".txt"
+    }
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-showmulpkg"
+    }
+    exec {
+        commandLine "powershell", "java -jar", JAR, "-jiagu", apk, outputPath, "-autosign", "-automulpkg"
+    }
+
+}
+
+/**
+ * zip压缩apk保存目录，生成 build/outputs/release/pccb-x.x.x.zip
+ * @param outputDir apk保存目录
+ */
+def compressDir(File outputDir) {
+    println "*************** compress apk output dir ***************"
+
+    File zipFile = new File(outputDir.getParent() + "/" + outputDir.getName() + ".zip")
+    if (zipFile.exists()) {
+        zipFile.delete()
+    }
+
+    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))
+    File[] files = outputDir.listFiles()
+    for (int i = 0; i < files.length; i++) {
+        File file = files[i]
+
+        byte[] bf = new byte[8192]
+        FileInputStream fis = new FileInputStream(file)
+        zos.putNextEntry(new ZipEntry(file.getName()))
+
+        int len
+        while ((len = fis.read(bf)) > 0) {
+            zos.write(bf, 0, len)
+        }
+        zos.flush()
+        fis.close()
+    }
+
+    zos.close()
+}
+
+//构建发布到生产环境的所有渠道apk,生成压缩文件 pccb-x.x.x.zip
+task packageRelease {
+    dependsOn("assembleRelease")
+
+    doLast {
+        File apkFile = new File("")
+        if ( apkFile == 0 ) {
+            throw new RuntimeException("no apk files has found!")
+        }
+        String[] nameSlice = apkFile.name.split("-")
+        File outputDir = new File(OUTPUT_PATH + nameSlice[0] + "-" + nameSlice[1])
+        if (outputDir.exists()) {
+            if (!outputDir.delete()) {
+                throw new RuntimeException("delete outputDir failure!")
+            }
+        }
+
+        if (!outputDir.mkdirs()) {
+            throw new RuntimeException("make outputDir failure!")
+        }
+
+        reinforce(apkFile.file, outputDir.getPath(), apkFile.channel)
+        filterApk(outputDir)
+        renameApk(outputDir)
+        compressDir(outputDir)
+    }
+}
