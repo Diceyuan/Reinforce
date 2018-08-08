@@ -64,8 +64,8 @@ dependencies {
 //    }
 //}
 //
-//task reinf(type: Exec) {
-//    executable 'sh'
-//    args "-c","../run.sh $buildDir"
-//}
+task reinf(type: Exec) {
+    executable 'sh'
+    args "-c","../run.sh $buildDir"
+}
 
