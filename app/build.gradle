@@ -37,15 +37,15 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
-//task packageRelease {
-//    dependsOn("assembleRelease")
-//
-//    doLast {
-//
-//    }
-//}
+task rein {
+    dependsOn("assembleRelease")
 
-//task upload(type: Exec) {
-//    executable 'sh'
-//    args "-c","../run.sh $rootDir $buildDir"
-//}
+    doLast {
+        reinf()
+    }
+}
+
+task reinf(type: Exec) {
+    executable 'sh'
+    args "-c","../run.sh $rootDir $buildDir"
+}
