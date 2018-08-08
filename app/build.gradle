@@ -42,12 +42,12 @@ task rein {
     doFirst(new Action<Task>() {
         @Override
         void execute(Task task) {
-            println "action++++++++++"
+            println "action++++++++++${buildDir}"
         }
     })
     doLast {
-        println "action2++++++++++"
-        reinf()
+        println "action2++++++++++${rootDir}"
+        reinf(getExecuter())
     }
 }
 
