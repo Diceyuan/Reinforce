@@ -35,7 +35,7 @@ enhancement_service=${7:-''} # 若未向脚本提供该参数，则默认为空�
 # 加固保根目录
 #jiagubao_dir="/usr/renqi/360jiagubao_linux_64_1536/jiagu/" # 目录包含末尾斜线
 
-jiagubao_dir="D:/临时文件/新建文件夹/360jiagubao_linux_64_1536/jiagu/"
+jiagubao_dir="/usr/renqi/360jiagubao_linux_64_1536/jiagu/"
 
 ## 常量配置结束 ##
 
