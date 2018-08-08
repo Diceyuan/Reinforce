@@ -38,9 +38,15 @@ dependencies {
 }
 
 task rein {
-    dependsOn("assembleRelease")
-
+//    dependsOn("assembleRelease")
+    doFirst(new Action<Task>() {
+        @Override
+        void execute(Task task) {
+            println "action++++++++++"
+        }
+    })
     doLast {
+        println "action2++++++++++"
         reinf()
     }
 }
