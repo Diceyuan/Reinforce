@@ -23,7 +23,7 @@ app_dir=${buildDir}
 base_apk="${app_dir}/outputs/apk/release/app_release_tt_.apk"
 
 # 输出目录
-output_apk_dir="${app_dir}/outputs/apk/release/rein"
+output_apk_dir="${app_dir}/outputs/apk/release"
 output_apk="${output_apk_dir}/app_release_tt_jiagu_sign.apk"
 
 
