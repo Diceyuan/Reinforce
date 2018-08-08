@@ -69,8 +69,8 @@ java/bin/java -jar jiagu.jar -jiagu $base_apk $output_apk_dir -autosign
 output_apk=$(latestFile $output_apk_path_filter)
 print "【加固完成apk】${output_apk}"
 
-print "【复制加固完成的apk--start】"
+# 复制加固后的文件重命名 用于备份 打渠道包
 cp $output_apk $result_output_apk
-mv $output_apk $result_output_apk
-print "【复制加固完成的apk--end】"
+#mv $output_apk $result_output_apk
+
 exit
