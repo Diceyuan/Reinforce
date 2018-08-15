@@ -24,12 +24,12 @@ buildDir=$1
 app_dir=${buildDir}
 
 # 输入/输出apk
-base_apk="${app_dir}/outputs/apk/release/app_release_tt_.apk"
+base_apk="${app_dir}/outputs/apk/release/app_release_.apk"
 
 # 输出目录
 output_apk_dir="${app_dir}/outputs/apk/release/"
-output_apk="${output_apk_dir}app_release_tt_jiagu_sign.apk"
-result_output_apk="${output_apk_dir}app_release_tt_jiagu_sign_.apk"
+output_apk="${output_apk_dir}app_release_jiagu_sign.apk"
+result_output_apk="${output_apk_dir}app_release_jiagu_sign_.apk"
 output_apk_name_filter='*jiagu_sign.apk'
 output_apk_path_filter="${output_apk_dir}${output_apk_name_filter}"
 
